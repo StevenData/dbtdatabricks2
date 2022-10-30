@@ -3,6 +3,6 @@ select
     *
 from {{model}}
 where
-    {{column_name}}={{value}}
+    {{column_name}}='{{value}}'
 
 {% endtest%}
