@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: stg_tpch__nations
+    columns:
+        - name: nation_id
+          tests:
+            - not_null
+            - unique
+
+  - name: stg_tpch__part_suppliers
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+            combination_of_columns:
+                - part_id
+                - supplier_id
+    columns:
+      - name: available_qty
+        tests:
+          - not_null:
+              config:
+                serverity: error
+                error_if: ">500"
+                warn_if: ">0"
+                where: "supply_cost >0 "
+
+
+  - name: stg_tpch__parts
+    tests:
+      - expression_is_true:
+          expression: "name != 'spring lace cyan deep chocolate'"
+      - dbt_utils.expression_is_true:
+          expression: "name != 'spring lace cyan deep'"
+    columns:
+      - name: part_id
+        tests:
+          - not_null
+          - unique
+      - name: name
+        tests:
+            - t4generic_test:
+                value: 'spring lace cyan deep chocolate'
+            - column_does_match_value:
+                value: 'spring lace cyan deep'
+ 
+
+  - name: stg_tpch__regions
+    columns:
+      - name: region_id
+        tests:
+          - not_null
+          - unique
+          
+  - name: stg_tpch__suppliers
+    columns:
+      - name: supplier_id
+        tests:
+          - not_null
+          - unique
+      - name: phone_number
+        tests:
+          - dbt_expectations.expect_column_value_to_match_regex:
+              regex: \d{3}-\d{3}-\d4{4}
+              is_raw: True
