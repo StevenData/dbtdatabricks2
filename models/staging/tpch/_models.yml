@@ -9,11 +9,12 @@ models:
             - unique
 
   - name: stg_tpch__part_suppliers
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+            combination_of_columns:
+                - part_id
+                - supplier_id
     columns:
-      - name: " part_id || '|' || supplier_id"
-        tests:
-          - unique
-          - not_null
       - name: available_qty
         tests:
           - not_null:
@@ -46,3 +47,8 @@ models:
           - not_null
           - unique
       - name: phone_number
+        tests:
+          - dbt_expectations.expect_column_value_to_match_regex:
+              regex: \d{3}-\d{3}-\d4{4}
+              is_raw: True
+              
