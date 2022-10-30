@@ -35,6 +35,8 @@ models:
         tests:
             - t4generic_test:
                 value: 'spring lace cyan deep chocolate'
+            - column_does_match_value:
+                value: 'spring lace cyan deep chocolate'
 
   - name: stg_tpch__regions
     columns:
