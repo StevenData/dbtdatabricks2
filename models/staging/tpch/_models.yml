@@ -26,6 +26,11 @@ models:
 
 
   - name: stg_tpch__parts
+    tests:
+      - expression_is_true:
+          expression: "name != 'spring lace cyan deep chocolate'"
+      - dbt_utils.expression_is_true:
+          expression: "name != 'spring lace cyan deep'"
     columns:
       - name: part_id
         tests:
@@ -37,6 +42,7 @@ models:
                 value: 'spring lace cyan deep chocolate'
             - column_does_match_value:
                 value: 'spring lace cyan deep'
+ 
 
   - name: stg_tpch__regions
     columns:
