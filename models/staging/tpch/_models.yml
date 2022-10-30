@@ -32,6 +32,9 @@ models:
           - not_null
           - unique
       - name: name
+        tests:
+            - t4generic_test:
+                value: 'spring lace cyan deep chocolate'
 
   - name: stg_tpch__regions
     columns:
@@ -51,4 +54,3 @@ models:
           - dbt_expectations.expect_column_value_to_match_regex:
               regex: \d{3}-\d{3}-\d4{4}
               is_raw: True
-              
